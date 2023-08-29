@@ -8,17 +8,7 @@ import java.util.*
 /**
  * Class that represents an F1 race.
  */
-class Race
-/**
- * Creates an instance of Race representing an F1 Race
- *
- * @param name         name of the race
- * @param circuitName  name of the circuit the race is using
- * @param raceInstant  the datetime for when the race starts
- * @param qualiInstant the datetime for when the qualifying starts
- * @param round        the race position in the calendar
- * @param countryCode  The name of the country where this race takes place
- */(
+class Race(
     val name: String,
     val circuitName: String,
     val raceInstant: Instant,
@@ -31,19 +21,15 @@ class Race
     fun setRaceResult(raceResult: RaceResult?) {
         this.raceResult = raceResult
     }
-
     fun getRaceResult(): RaceResult? {
         return raceResult
     }
-
     fun hasRaceResult(): Boolean {
         return raceResult != null
     }
-
     fun getCountryCode(): String {
         return countryCode.lowercase(Locale.getDefault())
     }
-
     val raceRelativeTimestamp: String
         get() = TimeFormat.RELATIVE.atInstant(raceInstant).toString()
     val raceTimestampDateOnly: String
@@ -58,11 +44,9 @@ class Race
     fun setSprint(sprintInstant: Instant?) {
         this.sprintInstant = sprintInstant
     }
-
     fun hasSprint(): Boolean {
         return sprintInstant != null
     }
-
     val imagePath: String
         get() = "/circuitimages/" + circuitName.replace(" ".toRegex(), "") + ".png"
     val upcomingDate: Instant

@@ -19,14 +19,6 @@ private const val pageSize = 10
  * Class representing the /getrace command.
  */
 class GetRace(name: String, description: String, private val raceList: MutableList<Race>) : BotCommand(name, description) {
-
-    /**
-     * Creates an instance of GetRace.
-     *
-     * @param name           This commands name
-     * @param description    This commands description
-     * @param raceList       A list of races in this F1 season
-     */
     init {
         options.add(
             OptionData(

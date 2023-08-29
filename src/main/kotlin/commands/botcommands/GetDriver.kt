@@ -15,13 +15,6 @@ import java.util.function.Consumer
  * Class representing the /getdriver command.
  */
 class GetDriver(name: String, description: String, val driverMap: HashMap<String, Driver>) : BotCommand(name, description) {
-
-    /**
-     * Creates an instance of GetDriver.
-     * @param name This commands name
-     * @param description This commands description
-     * @param driverMap Map containing the drivers from this F1 season.
-     */
     init {
         val choiceList = ArrayList<Command.Choice>()
         driverMap.values.forEach { choiceList.add(Command.Choice(it.name, it.driverId))}
