@@ -1,0 +1,20 @@
+import commands.listeners.CommandListener
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.requests.GatewayIntent
+import java.io.File
+
+fun main() {
+    val token = File("token/token.txt").useLines { it.firstOrNull() }
+    if (token == null) { println("Token error"); return }
+
+    val bot = JDABuilder.createDefault(token)
+        .setActivity(Activity.listening("F1 theme song"))
+        .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+        .build()
+    bot.awaitReady()
+
+    val commandListener = CommandListener(bot)
+    commandListener.upsertCommands(bot.guilds)
+    bot.addEventListener(commandListener)
+}
