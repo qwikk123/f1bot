@@ -13,18 +13,9 @@ import java.util.concurrent.TimeUnit
 /**
  * Class for scheduling messages for the bot to send to specific discord text channels.
  */
-class MessageScheduler(channelList: List<TextChannel>) {
-    private var channelList: List<TextChannel>
+class MessageScheduler(private var channelList: List<TextChannel>) {
     private val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
     private var upcomingRaceFuture: ScheduledFuture<*>? = null
-
-    /**
-     * Creates an instance of MessageScheduler and initializes the ScheduledExecutorService.
-     * @param channelList List of text channels to send messages to.
-     */
-    init {
-        this.channelList = channelList
-    }
 
     /**
      * Schedules a message containing information about the upcoming race.
