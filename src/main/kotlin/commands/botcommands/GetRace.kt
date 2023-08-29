@@ -40,7 +40,7 @@ class GetRace(name: String, description: String, private val raceList: MutableLi
     }
 
     override fun execute(event: SlashCommandInteractionEvent) {
-        val buttonList = ArrayList<Button>()
+        val buttonList: MutableList<Button> = mutableListOf()
         buttonList.add(Button.danger("info-getrace", "Info").asDisabled())
         buttonList.add(Button.danger("result-getrace", "Result"))
         val index: Int = event.getOption("racenumber")!!.asInt - 1

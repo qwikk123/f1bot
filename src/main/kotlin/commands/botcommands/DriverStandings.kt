@@ -15,7 +15,7 @@ class DriverStandings(name: String, description: String, private val driverMap: 
     BotCommand(name, description) {
 
     override fun execute(event: SlashCommandInteractionEvent) {
-        val buttonList = ArrayList<Button>()
+        val buttonList: MutableList<Button> = mutableListOf()
         buttonList.add(Button.danger("prev-dstandings", "Previous").asDisabled())
         buttonList.add(Button.danger("next-dstandings", "Next"))
         event.hook.sendMessageEmbeds(
