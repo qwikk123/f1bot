@@ -11,24 +11,15 @@ import java.time.Instant
 
 private const val scheduledTextChannel = "f1"
 
-class F1DataService(bot: JDA, commandListener: CommandListener) {
-    private val messageScheduler: MessageScheduler
-    private val bot: JDA
-    private val commandListener: CommandListener
-    private val dataSource: F1DataSource
-    private var nextRace: Race? = null
+class F1DataService(private val bot: JDA,
+                    private val commandListener: CommandListener) {
 
-    /**
-     * Creates an F1DataService and initializes its F1DataSource and MessageScheduler.
-     * Then it tells the dataSource to set its data.
-     * @param bot an instance of a JDA bot
-     * @param commandListener an instance of a CommandListener
-     */
+    private val messageScheduler: MessageScheduler =
+        MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel, true))
+    private val dataSource: F1DataSource = F1DataSource()
+    private lateinit var nextRace: Race
+
     init {
-        this.commandListener = commandListener
-        dataSource = F1DataSource()
-        this.bot = bot
-        messageScheduler = MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel, true))
         setData()
     }
 
@@ -65,10 +56,10 @@ class F1DataService(bot: JDA, commandListener: CommandListener) {
      * (The scheduled message datetime is always 2 days before the race date)
      */
     private fun refreshScheduler() {
-        if (nextRace!!.upcomingDate.isAfter(Instant.now())) {
+        if (nextRace.upcomingDate.isAfter(Instant.now())) {
             messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel, true))
             messageScheduler.cancel()
-            messageScheduler.schedule(nextRace!!)
+            messageScheduler.schedule(nextRace)
         }
     }
 
@@ -78,7 +69,7 @@ class F1DataService(bot: JDA, commandListener: CommandListener) {
     private fun updateTextChannelDescription() {
         val textChannels = bot.getTextChannelsByName(scheduledTextChannel, true)
         for (textChannel in textChannels) {
-            textChannel.manager.setTopic("Everything Formula 1 | Next race: " + nextRace!!.raceRelativeTimestamp)
+            textChannel.manager.setTopic("Everything Formula 1 | Next race: " + nextRace.raceRelativeTimestamp)
                 .queue()
         }
     }
