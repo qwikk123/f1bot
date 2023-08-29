@@ -10,10 +10,6 @@ import service.F1DataService
 class CommandManager(f1DataService: F1DataService) {
     val commands = HashMap<String, BotCommand>()
 
-    /**
-     * Creates an instance of CommandManager and initializes all the commands the bot will use.
-     * @param f1DataService F1DataService to get initial command data from.
-     */
     init {
         val ping: BotCommand = Ping(
             "ping",

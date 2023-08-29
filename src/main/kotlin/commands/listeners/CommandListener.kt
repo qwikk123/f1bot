@@ -26,10 +26,6 @@ class CommandListener(bot: JDA) : ListenerAdapter() {
     var isReady = false
         private set
 
-    /**
-     * Creates an instance of CommandListener and initializes the F1DataService and CommandManager.
-     * @param bot The instance of this programs JDA bot.
-     */
     init {
         f1DataService = F1DataService(bot, this)
         commandManager = CommandManager(f1DataService)
@@ -93,8 +89,7 @@ class CommandListener(bot: JDA) : ListenerAdapter() {
      */
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
         val buttonId  = event.button.id!!
-        val buttonType = buttonId.split("-")[1]
-        when (buttonType) {
+        when (val buttonType = buttonId.split("-")[1]) {
             "dstandings" -> {
                 val command: BotCommand = commandManager.commands["driverstandings"]!!
                 if (command is DriverStandings) {
