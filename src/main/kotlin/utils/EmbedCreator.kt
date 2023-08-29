@@ -30,12 +30,21 @@ object EmbedCreator {
     }
 
     /**
-     * Sets the general theme of an EmbedBuilder
-     * @param eb EmbedBuilder to set the theme for.
+     * Creates an EmbedBuilder for a race message.
+     * @param r the race to create a message for.
+     * @param extraTitle extra prefix for the embeds title.
+     * @return an EmbedBuilder containing the race.
      */
-    private fun setTheme(eb: EmbedBuilder) {
-        eb.setThumbnail(thumbnailURL)
-        eb.setColor(color)
+    private fun createRace(r: Race, extraTitle: String): EmbedBuilder {
+        val eb = EmbedBuilder()
+        setTheme(eb)
+        eb.setTitle((extraTitle + "#" + r.round) + " " + getCountryCodeEmoji(r.getCountryCode()) + " " + r.name)
+        eb.addField("Race: ", r.raceTimestamp + "\n" + r.raceRelativeTimestamp, true)
+        if (r.hasSprint()) eb.addField("Sprint: ", r.sprintTimestamp, true)
+        eb.addField("Qualifying: ", r.qualifyingTimestamp, true)
+        eb.addField("Circuit: ", r.circuitName, false)
+        eb.setImage("attachment://circuitImage.png")
+        return eb
     }
 
     /**
@@ -111,24 +120,6 @@ object EmbedCreator {
     }
 
     /**
-     * Creates an EmbedBuilder for a race message.
-     * @param r the race to create a message for.
-     * @param extraTitle extra prefix for the embeds title.
-     * @return an EmbedBuilder containing the race.
-     */
-    private fun createRace(r: Race, extraTitle: String): EmbedBuilder {
-        val eb = EmbedBuilder()
-        setTheme(eb)
-        eb.setTitle((extraTitle + "#" + r.round) + " " + getCountryCodeEmoji(r.getCountryCode()) + " " + r.name)
-        eb.addField("Race: ", r.raceTimestamp + "\n" + r.raceRelativeTimestamp, true)
-        if (r.hasSprint()) eb.addField("Sprint: ", r.sprintTimestamp, true)
-        eb.addField("Qualifying: ", r.qualifyingTimestamp, true)
-        eb.addField("Circuit: ", r.circuitName, false)
-        eb.setImage("attachment://circuitImage.png")
-        return eb
-    }
-
-    /**
      * Creates an EmbedBuilder for a race result page.
      * It creates a table format inside a discord codeblock.
      * @param r the race to create a result embed for.
@@ -192,5 +183,14 @@ object EmbedCreator {
      */
     private fun getCountryCodeEmoji(isoCode: String): String {
         return ":flag_$isoCode:"
+    }
+
+    /**
+     * Sets the general theme of an EmbedBuilder
+     * @param eb EmbedBuilder to set the theme for.
+     */
+    private fun setTheme(eb: EmbedBuilder) {
+        eb.setThumbnail(thumbnailURL)
+        eb.setColor(color)
     }
 }
