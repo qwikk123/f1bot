@@ -202,7 +202,7 @@ class ErgastParser {
     }
 
     /**
-     * Gets a LocalDateTime object from separate string and time strings. (Strings missing the T separator)
+     * Gets an Instant from separate date and time strings. (Strings missing the T separator)
      * @param date String representing date
      * @param time String representing time
      * @return A new LocalDateTime object.
