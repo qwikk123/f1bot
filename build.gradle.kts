@@ -29,3 +29,12 @@ kotlin {
 application {
     mainClass.set("MainKt")
 }
+
+jib {
+    from {
+        image = "openjdk:latest"
+    }
+    to {
+        image = "f1bot"
+    }
+}
