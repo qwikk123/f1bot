@@ -6,6 +6,7 @@ import service.F1DataService
 
 fun main() {
     val token = Ping("","").javaClass.getResource("/token/token.txt")!!.readText()
+    token.trim()
 
     val bot = JDABuilder.createDefault(token)
         .setActivity(Activity.listening("F1 theme song"))
