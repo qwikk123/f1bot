@@ -2,6 +2,7 @@ import commands.listeners.CommandListener
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.requests.GatewayIntent
+import service.F1DataService
 import java.io.File
 
 fun main() {
@@ -14,7 +15,5 @@ fun main() {
         .build()
     bot.awaitReady()
 
-    val commandListener = CommandListener(bot)
-    commandListener.upsertCommands(bot.guilds)
-    bot.addEventListener(commandListener)
+    F1DataService(bot)
 }

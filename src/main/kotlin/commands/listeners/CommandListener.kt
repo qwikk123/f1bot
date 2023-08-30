@@ -20,16 +20,8 @@ import java.util.*
  * Class for managing EventListeners relating to BotCommands and their buttons.
  * The class extends the JDA class ListenerAdapter
  */
-class CommandListener(bot: JDA) : ListenerAdapter() {
-    private val commandManager: CommandManager
-    private val f1DataService: F1DataService
-    var isReady = false
-        private set
-
-    init {
-        f1DataService = F1DataService(bot, this)
-        commandManager = CommandManager(f1DataService)
-    }
+class CommandListener(bot: JDA, private val f1DataService: F1DataService) : ListenerAdapter() {
+    private val commandManager: CommandManager = f1DataService.commandManager
 
     /**
      * Method to handle SlashCommands (/commandName) from Discord.
@@ -41,17 +33,6 @@ class CommandListener(bot: JDA) : ListenerAdapter() {
         commandManager.commands[event.name]!!.execute(event)
     }
 
-    /**
-     * Method that sets the boolean ready to true.
-     * It runs on the bots ReadyEvent.
-     * This is to stop the Listener from updating commands before the CommandManager and F1DataService is ready.
-     * It is initialized in the Main method through upsertCommands()
-     * @param event event coming from Discord.
-     */
-    override fun onReady(event: ReadyEvent) {
-        super.onReady(event)
-        isReady = true
-    }
 
     /**
      * Method to update commands when the bot joins a new server.

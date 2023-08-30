@@ -1,5 +1,6 @@
 package service
 
+import commands.CommandManager
 import commands.listeners.CommandListener
 import datasource.F1DataSource
 import model.Constructor
@@ -11,16 +12,31 @@ import java.time.Instant
 
 private const val scheduledTextChannel = "f1"
 
-class F1DataService(private val bot: JDA,
-                    private val commandListener: CommandListener) {
+class F1DataService(private val bot: JDA) {
 
     private val messageScheduler: MessageScheduler =
         MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel, true))
     private val dataSource: F1DataSource = F1DataSource()
     private lateinit var nextRace: Race
+    val commandManager: CommandManager
+    private val commandListener: CommandListener
 
     init {
         setData()
+        println("setData() completed")
+
+        commandManager = CommandManager(this)
+        println("Initialized commandManager")
+
+        commandListener = CommandListener(bot, this)
+        println("Initialized commandListener")
+
+        commandListener.upsertCommands(bot.guilds)
+        println("Updating /commands for Discord")
+
+        bot.addEventListener(commandListener)
+        println("Added commandListener to JDA bot")
+        println("Init complete")
     }
 
     /**
@@ -32,7 +48,7 @@ class F1DataService(private val bot: JDA,
         val updated: Boolean = dataSource.setData()
         if (updated) {
             setNextRace(dataSource.retrieveRaceList())
-            if (commandListener.isReady) commandListener.upsertCommands(bot.guilds)
+            commandListener?.upsertCommands(bot.guilds)
         }
         updateTextChannelDescription()
     }
