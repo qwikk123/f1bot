@@ -28,7 +28,7 @@ class F1DataService(private val bot: JDA) {
         commandManager = CommandManager(this)
         println("Initialized commandManager")
 
-        commandListener = CommandListener(bot, this)
+        commandListener = CommandListener(this)
         println("Initialized commandListener")
 
         commandListener.upsertCommands(bot.guilds)

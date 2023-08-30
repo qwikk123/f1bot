@@ -4,12 +4,10 @@ import commands.CommandManager
 import commands.botcommands.BotCommand
 import commands.botcommands.DriverStandings
 import commands.botcommands.GetRace
-import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
-import net.dv8tion.jda.api.events.session.ReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.Commands
@@ -20,7 +18,7 @@ import java.util.*
  * Class for managing EventListeners relating to BotCommands and their buttons.
  * The class extends the JDA class ListenerAdapter
  */
-class CommandListener(bot: JDA, private val f1DataService: F1DataService) : ListenerAdapter() {
+class CommandListener(private val f1DataService: F1DataService) : ListenerAdapter() {
     private val commandManager: CommandManager = f1DataService.commandManager
 
     /**
