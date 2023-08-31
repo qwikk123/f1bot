@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Class for scheduling messages for the bot to send to specific discord text channels.
  */
-class MessageScheduler(private var channelList: List<TextChannel>) {
+class MessageScheduler(var channelList: List<TextChannel>) {
     private val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
     private var upcomingRaceFuture: ScheduledFuture<*>? = null
 
@@ -36,9 +36,5 @@ class MessageScheduler(private var channelList: List<TextChannel>) {
      */
     fun cancel() {
         upcomingRaceFuture?.cancel(true)
-    }
-
-    fun setChannelList(channelList: List<TextChannel>) {
-        this.channelList = channelList
     }
 }

@@ -73,7 +73,7 @@ class F1DataService(private val bot: JDA) {
      */
     private fun refreshScheduler() {
         if (nextRace.upcomingDate.isAfter(Instant.now())) {
-            messageScheduler.setChannelList(bot.getTextChannelsByName(scheduledTextChannel, true))
+            messageScheduler.channelList = bot.getTextChannelsByName(scheduledTextChannel, true)
             messageScheduler.cancel()
             messageScheduler.schedule(nextRace)
         }
