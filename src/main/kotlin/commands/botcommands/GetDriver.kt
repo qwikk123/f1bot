@@ -3,13 +3,10 @@ package commands.botcommands
 import model.Driver
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.Command
-import net.dv8tion.jda.api.interactions.commands.OptionMapping
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.utils.FileUpload
 import utils.EmbedCreator
-import java.util.*
-import java.util.function.Consumer
 
 /**
  * Class representing the /getdriver command.
