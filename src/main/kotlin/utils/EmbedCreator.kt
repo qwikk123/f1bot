@@ -137,7 +137,7 @@ object EmbedCreator {
             start, min((start + pageSize), raceResultList.size)
         )) {
             val d: Driver = driverMap[driverResult.driverId]!!
-            codeBlockText += (java.lang.String.format(
+            codeBlockText += (String.format(
                 format,
                 "#" + driverResult.pos,          //Pos
                 d.name,                          //Driver
