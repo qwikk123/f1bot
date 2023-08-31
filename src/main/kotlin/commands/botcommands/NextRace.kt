@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.utils.FileUpload
 import utils.EmbedCreator
 import java.time.Instant
-import java.util.*
 
 /**
  * Class representing the /nextrace command.
@@ -14,9 +13,8 @@ class NextRace(name: String, description: String, private val raceList: MutableL
 
     override fun execute(event: SlashCommandInteractionEvent) {
         val nextRace: Race = nextRace!!
-        val inputStream = Objects.requireNonNull(
-            javaClass.getResourceAsStream(nextRace.imagePath), "inputStream is null"
-        )
+        val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
+
         event.hook.sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
             .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
             .queue()

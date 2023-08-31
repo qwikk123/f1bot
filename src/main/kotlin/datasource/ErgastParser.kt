@@ -6,6 +6,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.time.Instant
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Class for parsing data from the Ergast API for the f1bot's model classes and datasource.

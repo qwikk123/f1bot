@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 import service.F1DataService
-import java.util.*
 
 /**
  * Class for managing EventListeners relating to BotCommands and their buttons.

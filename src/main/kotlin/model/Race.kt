@@ -3,7 +3,7 @@ package model
 import net.dv8tion.jda.api.utils.TimeFormat
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.util.*
+import java.util.Locale
 
 /**
  * Class that represents an F1 race.
