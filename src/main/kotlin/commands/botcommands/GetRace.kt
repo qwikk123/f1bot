@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button
 import net.dv8tion.jda.api.utils.FileUpload
 import utils.EmbedCreator
 import java.io.InputStream
-import java.util.*
 import java.util.regex.Pattern
 
 private const val pageSize = 10
@@ -91,9 +90,8 @@ class GetRace(name: String, description: String, private val raceList: MutableLi
      */
     private fun clickInfo(buttonList: MutableList<Button>, event: ButtonInteractionEvent, race: Race) {
         buttonList[0] = buttonList[0].asDisabled()
-        val inputStream = Objects.requireNonNull(
-            javaClass.getResourceAsStream(race.imagePath), "inputStream is null"
-        )
+        val inputStream = javaClass.getResourceAsStream(race.imagePath)!!
+
         event.editMessageEmbeds(EmbedCreator.createRace(race).build())
             .setFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
             .setActionRow(buttonList.subList(0, 2))
