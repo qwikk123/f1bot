@@ -195,8 +195,9 @@ class ErgastParser {
             val nationality: String = jConstructorInfo.getString("nationality")
             val points: Double = jConstructor.getDouble("points")
             val wins: Int = jConstructor.getInt("wins")
+            val isoCode = nationalityCodeMap[nationality]!!
 
-            constructorStandings.add(Constructor(pos, name, nationality, points, wins))
+            constructorStandings.add(Constructor(pos, name, nationality, points, wins, isoCode))
         }
         return constructorStandings
     }

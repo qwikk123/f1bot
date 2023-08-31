@@ -37,8 +37,8 @@ object EmbedCreator {
     private fun createRace(r: Race, extraTitle: String): EmbedBuilder {
         val eb = EmbedBuilder()
         setTheme(eb)
-        eb.setTitle((extraTitle + "#" + r.round) + " " + getCountryCodeEmoji(r.getCountryCode()) + " " + r.name)
-        eb.addField("Race: ", r.raceTimestamp + "\n" + r.raceRelativeTimestamp, true)
+        eb.setTitle("$extraTitle#${r.round} ${getCountryCodeEmoji(r.getCountryCode())} ${r.name}")
+        eb.addField("Race: ", "${r.raceTimestamp}\n${r.raceRelativeTimestamp}", true)
         if (r.hasSprint()) eb.addField("Sprint: ", r.sprintTimestamp, true)
         eb.addField("Qualifying: ", r.qualifyingTimestamp, true)
         eb.addField("Circuit: ", r.circuitName, false)
@@ -54,9 +54,9 @@ object EmbedCreator {
     fun createDriverProfile(driver: Driver): EmbedBuilder {
         val eb = EmbedBuilder()
         setTheme(eb)
-        eb.setTitle(("#" + driver.permanentNumber) + " " + getCountryCodeEmoji(driver.isoCode) + driver.name)
+        eb.setTitle("#${driver.permanentNumber} ${getCountryCodeEmoji(driver.isoCode)}${driver.name}")
         eb.addField("Team:", driver.constructorName, false)
-        eb.addField("Position", "#" + driver.pos, true)
+        eb.addField("Position", "#${driver.pos}", true)
         eb.addField("Wins", java.lang.String.valueOf(driver.wins), true)
         eb.addField("Points", df.format(driver.points), true)
         eb.setImage("attachment://driverImage.png")
@@ -73,26 +73,25 @@ object EmbedCreator {
         val driverStandings: List<Driver> = driverMap.values.sortedBy { driver -> driver.pos }
         val eb = EmbedBuilder()
         setTheme(eb)
+
         eb.setTitle("Driver Standings")
         eb.addField("Driver:", "", true)
         eb.addField("Team:", "", true)
         eb.addField("Points:", "", true)
+
         val start = pageSize * page
         for (driver in driverStandings.subList(
-            start, min((start + pageSize).toDouble(),
-                driverStandings.size.toDouble())
-                .toInt()
+            start,
+            min((start + pageSize), driverStandings.size)
         )) {
-            eb.addField(
-                ("#" + driver.pos) + " " + getCountryCodeEmoji(driver.isoCode) + driver.name,
-                "",
-                true
-            )
+            eb.addField("#${driver.pos} ${getCountryCodeEmoji(driver.isoCode)}${driver.name}", "", true)
             eb.addField(driver.constructorName, "", true)
             eb.addField(df.format(driver.points), "", true)
         }
+
         val maxPage = ceil(driverStandings.size.toDouble() / pageSize).toInt()
         eb.setFooter((page + 1).toString() + "/" + maxPage)
+
         return eb
     }
 
@@ -105,13 +104,11 @@ object EmbedCreator {
         val eb = EmbedBuilder()
         setTheme(eb)
         eb.setTitle("Constructor Standings")
+
         for (constructor in constructorStandings) {
             eb.addField(
-                ("#" + constructor.pos) + " " + constructor.name,
-                """
-                    
-                    Points: ${df.format(constructor.points)}
-                    """.trimIndent(),
+                "#${constructor.pos} ${getCountryCodeEmoji(constructor.isoCode)} ${constructor.name}",
+                "Points: ${df.format(constructor.points)}",
                 true
             )
         }
@@ -127,16 +124,17 @@ object EmbedCreator {
      * @return an EmbedBuilder containing the result page.
      */
     fun createRaceResult(r: Race, driverMap: HashMap<String, Driver>, page: Int, pageSize: Int): EmbedBuilder {
-        val raceResultList: List<DriverResult> = r.getRaceResult()!!.driverResultList
         val eb = EmbedBuilder()
         setTheme(eb)
-        eb.setTitle(("#" + r.round) + " " + getCountryCodeEmoji(r.getCountryCode()) + r.name)
+
+        eb.setTitle("#${r.round} ${getCountryCodeEmoji(r.getCountryCode())}${r.name}")
         val start = pageSize * page
         val format = "%-4s  %-16s  %-7s  %s"
-        var codeBlockText = "```" + String.format(format, "Pos:", "Driver:", "Points:", "Status:") + "\n"
+        var codeBlockText = "```${String.format(format, "Pos:", "Driver:", "Points:", "Status:")}\n"
+
+        val raceResultList: List<DriverResult> = r.getRaceResult()!!.driverResultList
         for (driverResult in raceResultList.subList(
-            start, min((start + pageSize).toDouble(), raceResultList.size.toDouble())
-                .toInt()
+            start, min((start + pageSize), raceResultList.size)
         )) {
             val d: Driver = driverMap[driverResult.driverId]!!
             codeBlockText += (java.lang.String.format(
@@ -149,8 +147,10 @@ object EmbedCreator {
         }
         codeBlockText += "```"
         eb.addField("Result", codeBlockText, true)
+
         val maxPage = ceil(raceResultList.size.toDouble() / pageSize).toInt()
         eb.setFooter((page + 1).toString() + "/" + maxPage)
+
         return eb
     }
 
@@ -163,14 +163,16 @@ object EmbedCreator {
         val eb = EmbedBuilder()
         setTheme(eb)
         eb.setTitle("Calendar")
+
         for (r in raceList) {
-            val countryCodeEmoji = (":flag_" + r.getCountryCode()) + ":"
+            val countryCodeEmoji = ":flag_${r.getCountryCode()}:"
             eb.addField(
-                ("#" + r.round) + " " + countryCodeEmoji + " " + r.name,
+                "#${r.round} $countryCodeEmoji ${r.name}",
                 r.raceTimestampDateOnly,
                 true
             )
         }
+
         return eb
     }
 
