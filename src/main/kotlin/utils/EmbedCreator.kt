@@ -90,7 +90,7 @@ object EmbedCreator {
         }
 
         val maxPage = ceil(driverStandings.size.toDouble() / pageSize).toInt()
-        eb.setFooter((page + 1).toString() + "/" + maxPage)
+        eb.setFooter("${(page + 1)}/$maxPage")
 
         return eb
     }
@@ -149,7 +149,7 @@ object EmbedCreator {
         eb.addField("Result", codeBlockText, true)
 
         val maxPage = ceil(raceResultList.size.toDouble() / pageSize).toInt()
-        eb.setFooter((page + 1).toString() + "/" + maxPage)
+        eb.setFooter("${(page + 1)}/$maxPage")
 
         return eb
     }
