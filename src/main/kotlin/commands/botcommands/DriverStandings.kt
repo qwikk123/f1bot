@@ -52,9 +52,7 @@ class DriverStandings(name: String, description: String, private val driverMap: 
             }
         }
 
-        event.editMessageEmbeds(
-            EmbedCreator.createDriverStandings(driverMap, page, pageSize).build()
-        )
+        event.editMessageEmbeds(EmbedCreator.createDriverStandings(driverMap, page, pageSize).build())
             .setActionRow(buttonList)
             .queue()
     }

@@ -18,7 +18,7 @@ import kotlin.math.min
  */
 object EmbedCreator {
     private val color = Color.RED
-    private const val thumbnailURL = "https://i.imgur.com/7wyu3ng.png"
+    private const val THUMBNAIL_URL = "https://i.imgur.com/7wyu3ng.png"
     private val df: DecimalFormat = DecimalFormat("#.#", DecimalFormatSymbols(Locale.US))
     fun createRace(r: Race): EmbedBuilder {
         return createRace(r, "")
@@ -191,7 +191,7 @@ object EmbedCreator {
      * @param eb EmbedBuilder to set the theme for.
      */
     private fun setTheme(eb: EmbedBuilder) {
-        eb.setThumbnail(thumbnailURL)
+        eb.setThumbnail(THUMBNAIL_URL)
         eb.setColor(color)
     }
 }
