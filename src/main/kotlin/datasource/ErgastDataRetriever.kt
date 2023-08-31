@@ -33,6 +33,28 @@ class ErgastDataRetriever {
     }
 
     /**
+     * Method to check whether an update from the api is needed or not.
+     * The update interval is set to wait at least 24 hours between updates.
+     * @param url url of Ergast Endpoint.
+     * @return true if the cache is out of date.
+     */
+    fun validUpdate(url: String): Boolean {
+        val fileName = getFileNameOfURL(url)
+        val f = File("cache/$fileName")
+        return try {
+            if (f.isFile()) {
+                val ft: FileTime = Files.getLastModifiedTime(Paths.get(f.path))
+                Instant.now().isAfter(ft.toInstant().plus(1, ChronoUnit.DAYS))
+            } else {
+                true
+            }
+        } catch (e: IOException) {
+            //use Ergast for info and try to create/recreate the file;
+            true
+        }
+    }
+
+    /**
      * Method to get a JSONObject from the cache
      * @param f Which file to retrieve data from.
      * @return A JSONObject containing Ergast API data.
@@ -75,27 +97,5 @@ class ErgastDataRetriever {
             .replace(":".toRegex(), "")
             .replace("\\?".toRegex(), "")
             .replaceFirst("\\.".toRegex(), "")
-    }
-
-    /**
-     * Method to check whether an update from the api is needed or not.
-     * The update interval is set to wait at least 24 hours between updates.
-     * @param url url of Ergast Endpoint.
-     * @return true if the cache is out of date.
-     */
-    fun validUpdate(url: String): Boolean {
-        val fileName = getFileNameOfURL(url)
-        val f = File("cache/$fileName")
-        return try {
-            if (f.isFile()) {
-                val ft: FileTime = Files.getLastModifiedTime(Paths.get(f.path))
-                Instant.now().isAfter(ft.toInstant().plus(1, ChronoUnit.DAYS))
-            } else {
-                true
-            }
-        } catch (e: IOException) {
-            //use Ergast for info and try to create/recreate the file;
-            true
-        }
     }
 }

@@ -23,7 +23,7 @@ class MessageScheduler(private var channelList: List<TextChannel>) {
      */
     fun schedule(nextRace: Race) {
         val upcomingRaceMessage = UpcomingRaceMessage(channelList, LocalDateTime.now(), nextRace)
-        System.out.println(("SCHEDULED TASK FOR: " + nextRace.upcomingDate) + "\n")
+        println(("SCHEDULED TASK FOR: " + nextRace.upcomingDate) + "\n")
         upcomingRaceFuture = executorService.schedule(
             upcomingRaceMessage,
             Instant.now().until(nextRace.upcomingDate, ChronoUnit.MINUTES),
