@@ -58,7 +58,6 @@ class F1DataService(val bot: JDA) {
 
     /**
      * Finds the next race from today in raceList, updates nextRace and tells the scheduler to refresh itself.
-     * @param raceList List of races in the current F1 season.
      */
 
     fun setNextRace() {
