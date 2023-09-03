@@ -12,14 +12,16 @@ import java.time.Instant
 
 private const val scheduledTextChannel = "f1"
 
-class F1DataService(private val bot: JDA) {
+class F1DataService(val bot: JDA) {
 
     private val messageScheduler: MessageScheduler =
-        MessageScheduler(bot.getTextChannelsByName(scheduledTextChannel, true))
+        MessageScheduler(this)
+
     private val dataSource: F1DataSource = F1DataSource()
-    private lateinit var nextRace: Race
     val commandManager: CommandManager
     private val commandListener: CommandListener
+
+    lateinit var nextRace: Race
 
     init {
         setData()
@@ -48,6 +50,7 @@ class F1DataService(private val bot: JDA) {
         val updated: Boolean = dataSource.setData()
         if (updated) {
             setNextRace(dataSource.retrieveRaceList())
+            refreshScheduler()
             commandListener?.upsertCommands(bot.guilds)
         }
         updateTextChannelDescription()
@@ -61,7 +64,6 @@ class F1DataService(private val bot: JDA) {
         for (r in raceList!!) {
             if (r.raceInstant.isAfter(Instant.now())) {
                 nextRace = r
-                refreshScheduler()
                 return
             }
         }
@@ -71,11 +73,10 @@ class F1DataService(private val bot: JDA) {
      * Refreshes the messageScheduler if the current time is before its scheduled datetime
      * (The scheduled message datetime is always 2 days before the race date)
      */
-    private fun refreshScheduler() {
+    fun refreshScheduler() {
         if (nextRace.upcomingDate.isAfter(Instant.now())) {
-            messageScheduler.channelList = bot.getTextChannelsByName(scheduledTextChannel, true)
             messageScheduler.cancel()
-            messageScheduler.schedule(nextRace)
+            messageScheduler.schedule()
         }
     }
 

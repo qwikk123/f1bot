@@ -39,6 +39,7 @@ class CommandListener(private val f1DataService: F1DataService) : ListenerAdapte
         val guildList = ArrayList<Guild>()
         guildList.add(event.guild)
         upsertCommands(guildList)
+        f1DataService.refreshScheduler()
     }
 
     /**
