@@ -18,7 +18,6 @@ class MessageScheduler(private val f1DataService: F1DataService) {
 
     /**
      * Schedules a message containing information about the upcoming race.
-     * @param nextRace the next race in the F1 season.
      */
     fun schedule() {
         val nextRace = f1DataService.nextRace
