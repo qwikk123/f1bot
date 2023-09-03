@@ -49,7 +49,7 @@ class F1DataService(val bot: JDA) {
     fun setData() {
         val updated: Boolean = dataSource.setData()
         if (updated) {
-            setNextRace(dataSource.retrieveRaceList())
+            setNextRace()
             refreshScheduler()
             commandListener?.upsertCommands(bot.guilds)
         }
@@ -60,7 +60,8 @@ class F1DataService(val bot: JDA) {
      * Finds the next race from today in raceList, updates nextRace and tells the scheduler to refresh itself.
      * @param raceList List of races in the current F1 season.
      */
-    private fun setNextRace(raceList: MutableList<Race>?) {
+
+    fun setNextRace() {
         for (r in raceList!!) {
             if (r.raceInstant.isAfter(Instant.now())) {
                 nextRace = r
@@ -78,6 +79,8 @@ class F1DataService(val bot: JDA) {
             messageScheduler.cancel()
             messageScheduler.schedule()
         }
+        messageScheduler.cancelUpdate()
+        messageScheduler.scheduleUpdate()
     }
 
     /**

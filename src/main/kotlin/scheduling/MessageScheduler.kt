@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit
 class MessageScheduler(private val f1DataService: F1DataService) {
     private val executorService: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
     private var upcomingRaceFuture: ScheduledFuture<*>? = null
+    private var upcomingUpdateFuture: ScheduledFuture<*>? = null
+
 
     /**
      * Schedules a message containing information about the upcoming race.
@@ -24,11 +26,27 @@ class MessageScheduler(private val f1DataService: F1DataService) {
 
         val upcomingRaceMessage = UpcomingRaceMessage(f1DataService.bot, LocalDateTime.now(), nextRace)
         println(("SCHEDULED TASK FOR: " + nextRace.upcomingDate) + "\n")
+
         upcomingRaceFuture = executorService.schedule(
             upcomingRaceMessage,
-            Instant.now().until(nextRace.upcomingDate, ChronoUnit.MINUTES),
-            TimeUnit.MINUTES
+            Instant.now().until(nextRace.upcomingDate, ChronoUnit.SECONDS),
+            TimeUnit.SECONDS
         )
+    }
+    fun scheduleUpdate() {
+        val nextRace = f1DataService.nextRace
+
+        println(("SCHEDULED UPDATE FOR: " + nextRace.raceInstant) + "\n")
+        upcomingUpdateFuture = executorService.schedule(
+                UpcomingMessageUpdater(this),
+                Instant.now().until(nextRace.raceInstant, ChronoUnit.SECONDS).plus(1),
+                TimeUnit.SECONDS
+        )
+    }
+    fun reSchedule() {
+        f1DataService.setNextRace()
+        schedule()
+        scheduleUpdate()
     }
 
     /**
@@ -36,5 +54,9 @@ class MessageScheduler(private val f1DataService: F1DataService) {
      */
     fun cancel() {
         upcomingRaceFuture?.cancel(true)
+    }
+
+    fun cancelUpdate() {
+        upcomingUpdateFuture?.cancel(true)
     }
 }
