@@ -88,7 +88,7 @@ class F1DataService(val bot: JDA) {
     fun updateTextChannelDescription() {
         val textChannels = bot.getTextChannelsByName(scheduledTextChannel, true)
         for (textChannel in textChannels) {
-            textChannel.manager.setTopic("Everything Formula 1 | Next race: " + nextRace.raceRelativeTimestamp)
+            textChannel.manager.setTopic("Everything Formula 1 | Next race: ${nextRace.raceRelativeTimestamp}")
                 .queue()
         }
     }

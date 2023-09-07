@@ -25,7 +25,7 @@ class MessageScheduler(private val f1DataService: F1DataService) {
         val nextRace = f1DataService.nextRace
 
         val upcomingRaceMessage = UpcomingRaceMessage(f1DataService.bot, LocalDateTime.now(), nextRace)
-        println(("SCHEDULED TASK FOR: " + nextRace.upcomingDate) + "\n")
+        println("SCHEDULED TASK FOR: ${nextRace.upcomingDate}\n")
 
         upcomingRaceFuture = executorService.schedule(
             upcomingRaceMessage,
@@ -36,7 +36,7 @@ class MessageScheduler(private val f1DataService: F1DataService) {
     fun scheduleUpdate() {
         val nextRace = f1DataService.nextRace
 
-        println(("SCHEDULED UPDATE FOR: " + nextRace.raceInstant) + "\n")
+        println("${"SCHEDULED UPDATE FOR: " + nextRace.raceInstant}\n")
         upcomingUpdateFuture = executorService.schedule(
                 UpcomingMessageUpdater(this),
                 Instant.now().until(nextRace.raceInstant, ChronoUnit.SECONDS).plus(1),
