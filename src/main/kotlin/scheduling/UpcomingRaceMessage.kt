@@ -22,9 +22,9 @@ class UpcomingRaceMessage(
      */
     override fun run() {
         println("Scheduled at: $scheduledTime Running at: ${LocalDateTime.now()}")
-        val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
 
         bot.getTextChannelsByName(scheduledTextChannel, true).forEach { x ->
+            val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
             x.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build())
                 .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
                 .queue()
