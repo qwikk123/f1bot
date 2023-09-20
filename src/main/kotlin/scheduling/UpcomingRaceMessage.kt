@@ -24,6 +24,9 @@ class UpcomingRaceMessage(
         println("Scheduled at: $scheduledTime Running at: ${LocalDateTime.now()}")
 
         bot.getTextChannelsByName(scheduledTextChannel, true).forEach { x ->
+            val role = x.guild.roles.firstOrNull { it.name == "F1Notifications" }
+            if (role != null) x.sendMessage(role.asMention).queue()
+
             val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
             x.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build())
                 .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
