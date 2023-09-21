@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:5.0.0-beta.12")
+    implementation("net.dv8tion:JDA:5.0.0-beta.13")
     implementation("org.json:json:20230618")
 
 }
