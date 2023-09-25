@@ -132,7 +132,7 @@ object EmbedCreator {
         val format = "%-4s  %-16s  %-7s  %s"
         var codeBlockText = "```${String.format(format, "Pos:", "Driver:", "Points:", "Status:")}\n"
 
-        val raceResultList: List<DriverResult> = r.getRaceResult()!!.driverResultList
+        val raceResultList: List<DriverResult> = r.raceResult!!.driverResultList
         for (driverResult in raceResultList.subList(
             start, min((start + pageSize), raceResultList.size)
         )) {

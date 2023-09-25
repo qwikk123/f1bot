@@ -39,8 +39,7 @@ class GetRace(name: String, description: String, private val raceList: MutableLi
         val race: Race = raceList[index]
         val inputStream :InputStream = javaClass.getResourceAsStream(race.imagePath)!!
 
-        val action
-                = event.hook.sendMessageEmbeds(EmbedCreator.createRace(race).build())
+        val action = event.hook.sendMessageEmbeds(EmbedCreator.createRace(race).build())
                 .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
 
         if (race.hasRaceResult()) {

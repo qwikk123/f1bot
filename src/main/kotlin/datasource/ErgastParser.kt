@@ -68,7 +68,7 @@ class ErgastParser {
 
             if (jsonRace.has("Sprint")) {
                 val jSprint: JSONObject = jsonRace.getJSONObject("Sprint")
-                r.setSprint(getInstant(jSprint.getString("date"), jSprint.getString("time")))
+                r.sprintInstant = getInstant(jSprint.getString("date"), jSprint.getString("time"))
             }
             raceList.add(r)
         }

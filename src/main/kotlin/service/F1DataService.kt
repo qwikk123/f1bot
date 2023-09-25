@@ -56,8 +56,7 @@ class F1DataService(val bot: JDA) {
      * tell the messageScheduler to reschedule the new race
      */
     fun setData() {
-        val updated: Boolean = dataSource.setData()
-        if (updated) {
+        if (dataSource.setData()) {
             setNextRace()
             refreshScheduler()
             commandListener.upsertCommands(bot.guilds)

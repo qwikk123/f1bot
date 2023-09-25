@@ -12,7 +12,7 @@ import java.time.Instant
 class NextRace(name: String, description: String, private val raceList: MutableList<Race>) : BotCommand(name, description) {
 
     override fun execute(event: SlashCommandInteractionEvent) {
-        val nextRace: Race = nextRace!!
+        val nextRace: Race = nextRace
         val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
 
         event.hook.sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
@@ -20,13 +20,9 @@ class NextRace(name: String, description: String, private val raceList: MutableL
             .queue()
     }
 
-    private val nextRace: Race?
+    private val nextRace: Race
         get() {
-            for (r in raceList) {
-                if (r.raceInstant.isAfter(Instant.now())) {
-                    return r
-                }
-            }
-            return null
+            return raceList.firstOrNull { it.raceInstant.isAfter(Instant.now()) }
+                ?: raceList[raceList.size-1]
         }
 }

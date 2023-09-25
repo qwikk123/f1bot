@@ -12,7 +12,7 @@ private const val scheduledTextChannel = "f1"
  * Class representing an upcoming race message.
  */
 class UpcomingRaceMessage(
-    private var bot: JDA,
+    private val bot: JDA,
     private val scheduledTime: LocalDateTime,
     private val nextRace: Race) : Runnable {
 

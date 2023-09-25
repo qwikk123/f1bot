@@ -57,7 +57,7 @@ class F1DataSource {
         val isEmpty = raceResults.isNotEmpty()
         if (isEmpty) {
             for (i in raceResults.indices) {
-                raceList[i].setRaceResult(raceResults[i])
+                raceList[i].raceResult = raceResults[i]
             }
         }
         return isEmpty
