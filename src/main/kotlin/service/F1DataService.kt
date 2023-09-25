@@ -17,15 +17,24 @@ class F1DataService(val bot: JDA) {
     private val messageScheduler: MessageScheduler =
         MessageScheduler(this)
 
-    private val dataSource: F1DataSource = F1DataSource()
+    private val dataSource: F1DataSource
     val commandManager: CommandManager
     private val commandListener: CommandListener
+
+    val raceList: MutableList<Race>
+        get() = dataSource.raceList
+    val driverMap: HashMap<String, Driver>
+        get() = dataSource.driverMap
+    val constructorStandings: MutableList<Constructor>
+        get() = dataSource.constructorStandings
 
     lateinit var nextRace: Race
 
     init {
-        setData()
-        println("setData() completed")
+        dataSource = F1DataSource()
+        println("Initialized datasource")
+        setNextRace()
+        println("nextRace set")
 
         commandManager = CommandManager(this)
         println("Initialized commandManager")
@@ -51,22 +60,18 @@ class F1DataService(val bot: JDA) {
         if (updated) {
             setNextRace()
             refreshScheduler()
-            commandListener?.upsertCommands(bot.guilds)
+            commandListener.upsertCommands(bot.guilds)
         }
-        updateTextChannelDescription()
     }
 
     /**
-     * Finds the next race from today in raceList, updates nextRace and tells the scheduler to refresh itself.
+     * Finds and sets the next race from raceList.
      */
-
     fun setNextRace() {
-        for (r in raceList!!) {
-            if (r.raceInstant.isAfter(Instant.now())) {
-                nextRace = r
-                return
-            }
-        }
+        nextRace =
+            raceList.firstOrNull { it.raceInstant.isAfter(Instant.now()) }
+            ?: raceList[raceList.size-1]
+        updateTextChannelDescription()
     }
 
     /**
@@ -85,18 +90,11 @@ class F1DataService(val bot: JDA) {
     /**
      * Method that sets a text channel description.
      */
-    fun updateTextChannelDescription() {
+    private fun updateTextChannelDescription() {
         val textChannels = bot.getTextChannelsByName(scheduledTextChannel, true)
         for (textChannel in textChannels) {
             textChannel.manager.setTopic("Everything Formula 1 | Next race: ${nextRace.raceRelativeTimestamp}")
                 .queue()
         }
     }
-
-    val raceList: MutableList<Race>?
-        get() = dataSource.retrieveRaceList()
-    val driverMap: HashMap<String, Driver>?
-        get() = dataSource.retrieveDriverMap()
-    val constructorStandings: MutableList<Constructor>?
-        get() = dataSource.retrieveConstructorStandings()
 }

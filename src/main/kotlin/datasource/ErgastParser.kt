@@ -36,11 +36,11 @@ class ErgastParser {
      * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
      * @return A list containing a Race instance for each race in the F1 season.
      */
-    fun getF1RaceData(forceUpdate: Boolean): MutableList<Race>? {
+    fun getF1RaceData(forceUpdate: Boolean = false): MutableList<Race> {
         val URL = "https://ergast.com/api/f1/current.json"
         val validUpdate = ergastDataRetriever.validUpdate(URL)
-        if (!forceUpdate && !validUpdate) {
-            return null
+        if (!(forceUpdate || validUpdate)) {
+            return mutableListOf()
         }
         val json: JSONObject = ergastDataRetriever.getJson(URL, validUpdate)
         val jArray: JSONArray = json.getJSONObject("MRData")
@@ -82,12 +82,12 @@ class ErgastParser {
      * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
      * @return A List containing RaceResults for each race in the F1 season
      */
-    fun getRaceResults(forceUpdate: Boolean): MutableList<RaceResult>? {
+    fun getRaceResults(forceUpdate: Boolean = false): MutableList<RaceResult> {
         val raceResults: MutableList<RaceResult> = mutableListOf()
         val url = "https://ergast.com/api/f1/current/results.json?limit=1000"
         val validUpdate = ergastDataRetriever.validUpdate(url)
-        if (!forceUpdate && !validUpdate) {
-            return null
+        if (!(forceUpdate || validUpdate)) {
+            return mutableListOf()
         }
 
         val json: JSONObject = ergastDataRetriever.getJson(url, validUpdate)
@@ -128,11 +128,11 @@ class ErgastParser {
      * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
      * @return A HashMap containing all the drivers in the F1 season mapped to their driverId
      */
-    fun getF1DriverStandingsData(forceUpdate: Boolean): HashMap<String, Driver>? {
+    fun getF1DriverStandingsData(forceUpdate: Boolean = false): HashMap<String, Driver> {
         val url = "https://ergast.com/api/f1/current/driverStandings.json"
         val validUpdate = ergastDataRetriever.validUpdate(url)
-        if (!forceUpdate && !validUpdate) {
-            return null
+        if (!(forceUpdate || validUpdate)) {
+            return HashMap()
         }
         val json: JSONObject = ergastDataRetriever.getJson(url, validUpdate)
         val jArray: JSONArray = json.getJSONObject("MRData")
@@ -140,7 +140,7 @@ class ErgastParser {
             .getJSONArray("StandingsLists")
             .getJSONObject(0).getJSONArray("DriverStandings")
 
-        val driverMap: HashMap<String, Driver> = HashMap<String, Driver>()
+        val driverMap: HashMap<String, Driver> = HashMap()
         for (i in 0..<jArray.length()) {
             //JSON Objects
             val jDriver = jArray.getJSONObject(i)
@@ -172,11 +172,11 @@ class ErgastParser {
      * @param forceUpdate forces the update of data (this is mostly used for initial data retrieval on bot startup)
      * @return A list containing the constructors for this F1 season.
      */
-    fun getF1ConstructorStandingsData(forceUpdate: Boolean): MutableList<Constructor>? {
+    fun getF1ConstructorStandingsData(forceUpdate: Boolean = false): MutableList<Constructor> {
         val url = "https://ergast.com/api/f1/current/constructorStandings.json"
         val validUpdate = ergastDataRetriever.validUpdate(url)
-        if (!forceUpdate && !validUpdate) {
-            return null
+        if (!(forceUpdate || validUpdate)) {
+            return mutableListOf()
         }
         val json: JSONObject = ergastDataRetriever.getJson(url, validUpdate)
         val jArray: JSONArray = json.getJSONObject("MRData")

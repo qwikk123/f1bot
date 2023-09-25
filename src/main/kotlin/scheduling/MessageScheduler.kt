@@ -45,7 +45,6 @@ class MessageScheduler(private val f1DataService: F1DataService) {
     }
     fun reSchedule() {
         f1DataService.setNextRace()
-        f1DataService.updateTextChannelDescription()
         schedule()
         scheduleUpdate()
     }
