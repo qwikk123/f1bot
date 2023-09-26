@@ -1,18 +1,16 @@
 package scheduling
 
 import model.Race
-import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.utils.FileUpload
+import service.F1DataService
 import utils.EmbedCreator
 import java.time.LocalDateTime
-
-private const val scheduledTextChannel = "f1"
 
 /**
  * Class representing an upcoming race message.
  */
 class UpcomingRaceMessage(
-    private val bot: JDA,
+    private val f1DataService: F1DataService,
     private val scheduledTime: LocalDateTime,
     private val nextRace: Race) : Runnable {
 
@@ -23,14 +21,15 @@ class UpcomingRaceMessage(
     override fun run() {
         println("Scheduled at: $scheduledTime Running at: ${LocalDateTime.now()}")
 
-        bot.getTextChannelsByName(scheduledTextChannel, true).forEach { x ->
-            val role = x.guild.roles.firstOrNull { it.name == "F1Notifications" }
-            if (role != null) x.sendMessage(role.asMention).queue()
+        f1DataService.serverNotificationList.forEach { x ->
+            val role = f1DataService.bot.getGuildById(x.server.id)?.roles?.firstOrNull { it.name == "F1Notifications" }
+            val messageChannel = f1DataService.bot.textChannels.firstOrNull { it.id == x.messageChannel.id }
+            if (role != null) messageChannel?.sendMessage(role.asMention)?.queue()
 
             val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
-            x.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build())
-                .addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
-                .queue()
+            messageChannel?.sendMessageEmbeds(EmbedCreator.createUpcoming(nextRace).build())
+                ?.addFiles(FileUpload.fromData(inputStream, "circuitImage.png"))
+                ?.queue()
         }
     }
 }

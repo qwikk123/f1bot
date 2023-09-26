@@ -48,6 +48,11 @@ class CommandManager(f1DataService: F1DataService) {
             "show the current f1 calendar",
             f1DataService.raceList
         )
+        val toggleNotifications: BotCommand = ToggleNotifications(
+            "togglenotifications",
+            "Toggle notifications messages for this server",
+            f1DataService
+        )
 
         //Insert commands into map
         commands[ping.name] = ping
@@ -57,5 +62,6 @@ class CommandManager(f1DataService: F1DataService) {
         commands[constructorStandings.name] = constructorStandings
         commands[getDriver.name] = getDriver
         commands[getCalendar.name] = getCalendar
+        commands[toggleNotifications.name] = toggleNotifications
     }
 }

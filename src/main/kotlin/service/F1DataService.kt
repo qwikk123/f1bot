@@ -4,9 +4,12 @@ import commands.CommandManager
 import commands.listeners.CommandListener
 import datasource.F1DataSource
 import model.Constructor
+import model.DiscordServer
 import model.Driver
 import model.Race
 import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel
 import scheduling.MessageScheduler
 import java.time.Instant
 
@@ -27,13 +30,16 @@ class F1DataService(val bot: JDA) {
         get() = dataSource.driverMap
     val constructorStandings: MutableList<Constructor>
         get() = dataSource.constructorStandings
+    val serverNotificationList: MutableList<DiscordServer>
+        get() = dataSource.serverNotificationsList
 
     lateinit var nextRace: Race
 
     init {
-        dataSource = F1DataSource()
+        dataSource = F1DataSource(bot)
         println("Initialized datasource")
         setNextRace()
+        refreshScheduler()
         println("nextRace set")
 
         commandManager = CommandManager(this)
@@ -84,6 +90,13 @@ class F1DataService(val bot: JDA) {
         }
         messageScheduler.cancelUpdate()
         messageScheduler.scheduleUpdate()
+    }
+
+    fun toggleNotifications(server: Guild, messageChannel: MessageChannel) {
+        if (!serverNotificationList.removeIf { it.server.id == server.id }) {
+            serverNotificationList.add(DiscordServer(messageChannel, server))
+        }
+        dataSource.updateNotificationToggles()
     }
 
     /**

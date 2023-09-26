@@ -60,9 +60,7 @@ class ErgastDataRetriever {
      * @param f Which file to retrieve data from.
      * @return A JSONObject containing Ergast API data.
      */
-    private fun getJsonFromFile(f: File): JSONObject {
-        return JSONObject(JSONTokener(f.readText()))
-    }
+    private fun getJsonFromFile(f: File): JSONObject = JSONObject(JSONTokener(f.readText()))
 
     /**
      * Method to get a JSONObject from an Ergast endpoint.
