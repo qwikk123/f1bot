@@ -8,14 +8,10 @@ class ToggleNotifications(name: String, description: String) : BotCommand(name, 
         val guild = event.guild!!
         val member = event.member!!
 
-        var role = guild.roles.firstOrNull { it.name == roleName }
-        if (role == null) {
-            role = guild.createRole().setName(roleName).complete()!!
-        }
+        val role = guild.roles.firstOrNull { it.name == roleName }
+            ?: guild.createRole().setName(roleName).complete()!!
 
-        val memberRoles = member.roles
-
-        if (memberRoles.any { it.name == roleName }) {
+        if (member.roles.any { it.name == roleName }) {
             guild.removeRoleFromMember(member, role).queue()
             event.hook.sendMessage("Notifications for ${member.asMention} have been turned OFF").queue()
         }
