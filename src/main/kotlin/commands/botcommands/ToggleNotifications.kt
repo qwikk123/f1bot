@@ -1,18 +1,27 @@
 package commands.botcommands
 
-import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
-import service.F1DataService
 
-class ToggleNotifications(name: String, description: String, private val f1DataService: F1DataService) : BotCommand(name, description){
+class ToggleNotifications(name: String, description: String) : BotCommand(name, description){
+    private val roleName = "F1Notifications"
     override fun execute(event: SlashCommandInteractionEvent) {
-        if (event.member!!.hasPermission(Permission.ADMINISTRATOR)) {
-            val removed = f1DataService.toggleNotifications(event.guild!!, event.messageChannel)
-            val toggleStatus = if(removed) "OFF" else "ON"
-            event.hook.sendMessage("Server Notifications have been toggled $toggleStatus").queue()
+        val guild = event.guild!!
+        val member = event.member!!
+
+        var role = guild.roles.firstOrNull { it.name == roleName }
+        if (role == null) {
+            role = guild.createRole().setName(roleName).complete()!!
+        }
+
+        val memberRoles = member.roles
+
+        if (memberRoles.any { it.name == roleName }) {
+            guild.removeRoleFromMember(member, role).queue()
+            event.hook.sendMessage("Notifications for ${member.asMention} have been turned OFF").queue()
         }
         else {
-            event.hook.sendMessage("You do not have permission to use this command").queue()
+            guild.addRoleToMember(member, role).queue()
+            event.hook.sendMessage("Notifications for ${member.asMention} have been turned ON").queue()
         }
     }
 

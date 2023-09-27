@@ -50,7 +50,12 @@ class CommandManager(f1DataService: F1DataService) {
         )
         val toggleNotifications: BotCommand = ToggleNotifications(
             "togglenotifications",
-            "Toggle notifications messages for this server",
+            "Toggle message pings on/off",
+            f1DataService
+        )
+        val toggleServerMessages: BotCommand = ToggleServerMessages(
+            "toggleservermessages",
+            "Toggle messages for this server on/off (Requires Admin)",
             f1DataService
         )
 
@@ -63,5 +68,6 @@ class CommandManager(f1DataService: F1DataService) {
         commands[getDriver.name] = getDriver
         commands[getCalendar.name] = getCalendar
         commands[toggleNotifications.name] = toggleNotifications
+        commands[toggleServerMessages.name] = toggleServerMessages
     }
 }
