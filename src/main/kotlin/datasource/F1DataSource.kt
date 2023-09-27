@@ -27,7 +27,7 @@ class F1DataSource(bot: JDA) {
     /**
      * Method that updates all F1 data tied to this datasource.
      * It updates the raceList, driverMap, constructorStandings and the results tied to races that have any.
-     * If the ErgastParser returns null it will view the data as up to date.
+     * If the ErgastParser returns empty datastructures it will view the data as up to date.
      * @return true if any of the data was updated or false if nothing changed.
      */
     fun setData(): Boolean {
