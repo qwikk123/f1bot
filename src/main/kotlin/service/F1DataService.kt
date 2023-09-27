@@ -92,11 +92,13 @@ class F1DataService(val bot: JDA) {
         messageScheduler.scheduleUpdate()
     }
 
-    fun toggleNotifications(server: Guild, messageChannel: MessageChannel) {
-        if (!serverNotificationList.removeIf { it.server.id == server.id }) {
+    fun toggleNotifications(server: Guild, messageChannel: MessageChannel): Boolean {
+        val removed = serverNotificationList.removeIf { it.server.id == server.id }
+        if (!removed) {
             serverNotificationList.add(DiscordServer(messageChannel, server))
         }
         dataSource.updateNotificationToggles()
+        return removed
     }
 
     /**
