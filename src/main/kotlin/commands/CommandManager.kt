@@ -50,8 +50,7 @@ class CommandManager(f1DataService: F1DataService) {
         )
         val toggleNotifications: BotCommand = ToggleNotifications(
             "togglenotifications",
-            "Toggle message pings on/off",
-            f1DataService
+            "Toggle message pings on/off"
         )
         val toggleServerMessages: BotCommand = ToggleServerMessages(
             "toggleservermessages",
