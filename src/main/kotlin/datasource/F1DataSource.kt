@@ -60,12 +60,12 @@ class F1DataSource(bot: JDA) {
 
     private fun setRaceResults(forceUpdate: Boolean = false): Boolean {
         val raceResults: MutableList<RaceResult> = ergastParser.getRaceResults(forceUpdate)
-        val isEmpty = raceResults.isNotEmpty()
-        if (isEmpty) {
+        val isNotEmpty = raceResults.isNotEmpty()
+        if (isNotEmpty) {
             for (i in raceResults.indices) {
                 raceList[i].raceResult = raceResults[i]
             }
         }
-        return isEmpty
+        return isNotEmpty
     }
 }
