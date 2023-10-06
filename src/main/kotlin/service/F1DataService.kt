@@ -21,7 +21,7 @@ class F1DataService(val bot: JDA) {
     private val messageScheduler: MessageScheduler =
         MessageScheduler(this)
 
-    private val f1DataSource: F1DataSource = F1DataSource(bot)
+    private val f1DataSource: F1DataSource = F1DataSource()
     private val discordDataSource: DiscordDataSource = DiscordDataSource(bot)
     val commandManager: CommandManager
     private val commandListener: CommandListener
