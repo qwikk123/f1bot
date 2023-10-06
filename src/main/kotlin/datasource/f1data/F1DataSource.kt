@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.JDA
 /**
  * Class representing the source of F1 data.
  */
-class F1DataSource(bot: JDA) {
+class F1DataSource() {
     private val ergastParser = ErgastParser()
 
     var raceList: MutableList<Race>
