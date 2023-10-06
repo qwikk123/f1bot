@@ -1,12 +1,12 @@
-package datasource
+package datasource.discorddata
 
 import model.DiscordServer
 import net.dv8tion.jda.api.JDA
+import org.json.JSONArray
 
-class DiscordServerParser(val bot: JDA, private val discordData: DiscordServerDataManager) {
+class DiscordServerParser(val bot: JDA) {
 
-    fun getServerNotificationToggles(): MutableList<DiscordServer> {
-        val serverJsonArray = discordData.getServerNotificationToggles()
+    fun parseServerNotifications(serverJsonArray: JSONArray): MutableList<DiscordServer> {
         val serverList = mutableListOf<DiscordServer>()
         if (serverJsonArray.isEmpty) return serverList
 

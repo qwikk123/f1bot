@@ -2,7 +2,8 @@ package service
 
 import commands.CommandManager
 import commands.listeners.CommandListener
-import datasource.F1DataSource
+import datasource.discorddata.DiscordDataSource
+import datasource.f1data.F1DataSource
 import model.Constructor
 import model.DiscordServer
 import model.Driver
@@ -20,39 +21,31 @@ class F1DataService(val bot: JDA) {
     private val messageScheduler: MessageScheduler =
         MessageScheduler(this)
 
-    private val dataSource: F1DataSource
+    private val f1DataSource: F1DataSource = F1DataSource(bot)
+    private val discordDataSource: DiscordDataSource = DiscordDataSource(bot)
     val commandManager: CommandManager
     private val commandListener: CommandListener
 
     val raceList: MutableList<Race>
-        get() = dataSource.raceList
+        get() = f1DataSource.raceList
     val driverMap: HashMap<String, Driver>
-        get() = dataSource.driverMap
+        get() = f1DataSource.driverMap
     val constructorStandings: MutableList<Constructor>
-        get() = dataSource.constructorStandings
+        get() = f1DataSource.constructorStandings
     val serverNotificationList: MutableList<DiscordServer>
-        get() = dataSource.serverNotificationsList
+        get() = discordDataSource.serverNotificationsList
 
     lateinit var nextRace: Race
 
     init {
-        dataSource = F1DataSource(bot)
-        println("Initialized datasource")
         setNextRace()
         refreshScheduler()
-        println("nextRace set")
 
         commandManager = CommandManager(this)
-        println("Initialized commandManager")
-
         commandListener = CommandListener(this)
-        println("Initialized commandListener")
-
         commandListener.upsertCommands(bot.guilds)
-        println("Updating /commands for Discord")
 
         bot.addEventListener(commandListener)
-        println("Added commandListener to JDA bot")
         println("Init complete")
     }
 
@@ -62,7 +55,7 @@ class F1DataService(val bot: JDA) {
      * tell the messageScheduler to reschedule the new race
      */
     fun setData() {
-        if (dataSource.setData()) {
+        if (f1DataSource.setData()) {
             setNextRace()
             refreshScheduler()
             commandListener.upsertCommands(bot.guilds)
@@ -97,7 +90,7 @@ class F1DataService(val bot: JDA) {
         if (!removed) {
             serverNotificationList.add(DiscordServer(messageChannel, server))
         }
-        dataSource.updateNotificationToggles()
+        discordDataSource.updateNotifications()
         return removed
     }
 

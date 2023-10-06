@@ -1,4 +1,4 @@
-package datasource
+package datasource.discorddata
 
 import model.DiscordServer
 import org.json.JSONArray
@@ -10,7 +10,7 @@ import java.nio.file.Paths
 
 class DiscordServerDataManager {
     private val serverConfigPath: String = "server_settings/notifications.json"
-    fun getServerNotificationToggles(): JSONArray {
+    fun getServerNotifications(): JSONArray {
         val f = File(serverConfigPath)
         if (f.isFile) return getDataFromFile(f)
 
@@ -18,7 +18,7 @@ class DiscordServerDataManager {
         return JSONArray()
     }
 
-    fun updateServerNotificationToggles(serverList: MutableList<DiscordServer>) {
+    fun updateServerNotifications(serverList: MutableList<DiscordServer>) {
         val f = File(serverConfigPath)
         val jsonArray = JSONArray()
         serverList.forEach {

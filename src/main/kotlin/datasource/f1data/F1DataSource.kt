@@ -1,4 +1,4 @@
-package datasource
+package datasource.f1data
 
 import model.*
 import net.dv8tion.jda.api.JDA
@@ -8,19 +8,15 @@ import net.dv8tion.jda.api.JDA
  */
 class F1DataSource(bot: JDA) {
     private val ergastParser = ErgastParser()
-    private val discordServerData = DiscordServerDataManager()
-    private val discordServerParser = DiscordServerParser(bot, discordServerData)
 
     var raceList: MutableList<Race>
     var driverMap: HashMap<String, Driver>
     var constructorStandings: MutableList<Constructor>
-    var serverNotificationsList: MutableList<DiscordServer>
 
     init {
         raceList = ergastParser.getF1RaceData(true)
         driverMap = ergastParser.getF1DriverStandingsData(true)
         constructorStandings = ergastParser.getF1ConstructorStandingsData(true)
-        serverNotificationsList = discordServerParser.getServerNotificationToggles()
         setRaceResults(true)
     }
 
@@ -52,10 +48,6 @@ class F1DataSource(bot: JDA) {
 
         //      Any more api requests will require a delay. Max 4 polls per second/ 200 per hour
         return updated
-    }
-
-    fun updateNotificationToggles() {
-        discordServerData.updateServerNotificationToggles(serverNotificationsList)
     }
 
     private fun setRaceResults(forceUpdate: Boolean = false): Boolean {

@@ -1,4 +1,4 @@
-package datasource
+package datasource.f1data
 
 import model.*
 import org.json.JSONArray

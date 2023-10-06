@@ -1,4 +1,4 @@
-package datasource
+package datasource.f1data
 
 import org.json.JSONObject
 import org.json.JSONTokener
