@@ -29,7 +29,7 @@ class Race(
     val qualifyingTimestamp: String = TimeFormat.DATE_TIME_SHORT.atInstant(qualiInstant).toString()
     lateinit var sprintTimestamp: String
 
-    val imagePath: String = "/circuitimages/${circuitName.replace(" ".toRegex(), "")}.png"
+    val imagePath: String = "/circuitimages/${circuitName.replace(" ".toRegex(), "")}.png".lowercase()
     val upcomingDate: Instant = raceInstant.minus(2, ChronoUnit.DAYS)
 
     fun hasRaceResult(): Boolean = raceResult != null
