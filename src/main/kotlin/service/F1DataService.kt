@@ -23,7 +23,7 @@ class F1DataService(val bot: JDA) {
 
     private val f1DataSource: F1DataSource = F1DataSource()
     private val discordDataSource: DiscordDataSource = DiscordDataSource(bot)
-    val commandManager: CommandManager
+    var commandManager: CommandManager
     private val commandListener: CommandListener
 
     val raceList: MutableList<Race>
@@ -58,6 +58,7 @@ class F1DataService(val bot: JDA) {
         if (f1DataSource.setData()) {
             setNextRace()
             refreshScheduler()
+            commandManager = CommandManager(this)
             commandListener.upsertCommands(bot.guilds)
         }
     }

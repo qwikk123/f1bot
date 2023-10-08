@@ -1,6 +1,5 @@
 package commands.listeners
 
-import commands.CommandManager
 import commands.botcommands.BotCommand
 import commands.botcommands.DriverStandings
 import commands.botcommands.GetRace
@@ -18,7 +17,6 @@ import service.F1DataService
  * The class extends the JDA class ListenerAdapter
  */
 class CommandListener(private val f1DataService: F1DataService) : ListenerAdapter() {
-    private val commandManager: CommandManager = f1DataService.commandManager
 
     /**
      * Method to handle SlashCommands (/commandName) from Discord.
@@ -27,7 +25,7 @@ class CommandListener(private val f1DataService: F1DataService) : ListenerAdapte
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
         event.deferReply().queue()
         f1DataService.setData()
-        commandManager.commands[event.name]!!.execute(event)
+        f1DataService.commandManager.commands[event.name]!!.execute(event)
     }
 
 
@@ -48,7 +46,7 @@ class CommandListener(private val f1DataService: F1DataService) : ListenerAdapte
      */
     fun upsertCommands(guilds: List<Guild>) {
         val commandData: MutableList<CommandData> = ArrayList()
-        for (command in commandManager.commandList) {
+        for (command in f1DataService.commandManager.commandList) {
             val scd = Commands.slash(command.name, command.description)
             if (command.hasOptions()) {
                 scd.addOptions(command.options)
@@ -70,16 +68,16 @@ class CommandListener(private val f1DataService: F1DataService) : ListenerAdapte
         val buttonId  = event.button.id!!
         when (val buttonType = buttonId.split("-")[1]) {
             "dstandings" -> {
-                val command: BotCommand = commandManager.commands["driverstandings"]!!
+                val command: BotCommand = f1DataService.commandManager.commands["driverstandings"]!!
                 if (command is DriverStandings) {
                     command.handleButtons(event, buttonId)
                 }
             }
 
             "getrace", "resultpage" -> {
-                val command: BotCommand = commandManager.commands["getrace"]!!
+                val command: BotCommand = f1DataService.commandManager.commands["getrace"]!!
                 if (command is GetRace) {
-                    command.handleButtons(event, buttonId, buttonType, f1DataService.driverMap!!)
+                    command.handleButtons(event, buttonId, buttonType, f1DataService.driverMap)
                 }
             }
         }
