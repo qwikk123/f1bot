@@ -84,7 +84,7 @@ class ErgastDataRetriever {
             val f = File("cache/$fileName")
             getJsonFromFile(f)
         }
-    }
+   }
 
     /**
      * Method converting a URL endpoint to a filename.

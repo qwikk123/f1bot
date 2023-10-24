@@ -1,7 +1,6 @@
 package datasource.f1data
 
 import model.*
-import net.dv8tion.jda.api.JDA
 
 /**
  * Class representing the source of F1 data.
@@ -44,7 +43,7 @@ class F1DataSource() {
             constructorStandings = newConstructorStandings
             updated = true
         }
-        updated = updated || setRaceResults()
+        updated = setRaceResults() || updated
 
         //      Any more api requests will require a delay. Max 4 polls per second/ 200 per hour
         return updated
