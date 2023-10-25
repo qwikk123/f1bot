@@ -159,20 +159,25 @@ object EmbedCreator {
      * @param raceList list of races in the current F1 season.
      * @return an EmbedBuilder containing the season calendar
      */
-    fun createCalendar(raceList: List<Race>): EmbedBuilder {
+    fun createCalendar(raceList: List<Race>, nextRace:Race ): EmbedBuilder {
         val eb = EmbedBuilder()
         setTheme(eb)
         eb.setTitle("Calendar")
 
         for (r in raceList) {
-            val countryCodeEmoji = ":flag_${r.getCountryCode()}:"
-            eb.addField(
-                "#${r.round} $countryCodeEmoji ${r.name}",
-                r.raceTimestampDateOnly,
-                true
-            )
-        }
+            var name: String
+            var value: String
 
+            if (r.round == nextRace.round) {
+                name = ">NEXT RACE<\n#${r.round} ${getCountryCodeEmoji(r.getCountryCode())} ${r.name}"
+                value = r.raceTimestampDateOnly
+            }
+            else {
+                name = ""
+                value = "#${r.round} ${getCountryCodeEmoji(r.getCountryCode())} ${r.name}\n${r.raceTimestampDateOnly}"
+            }
+            eb.addField(name, value, true)
+        }
         return eb
     }
 

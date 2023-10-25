@@ -46,7 +46,8 @@ class CommandManager(f1DataService: F1DataService) {
         val getCalendar: BotCommand = GetCalendar(
             "getcalendar",
             "show the current f1 calendar",
-            f1DataService.raceList
+            f1DataService.raceList,
+            f1DataService.nextRace
         )
         val toggleNotifications: BotCommand = ToggleNotifications(
             "togglenotifications",
