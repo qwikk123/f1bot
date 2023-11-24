@@ -35,6 +35,7 @@ class MessageScheduler(private val f1DataService: F1DataService) {
     }
     fun scheduleUpdate() {
         val nextRace = f1DataService.nextRace
+        if (nextRace.raceInstant.isBefore(Instant.now())) return
 
         println("SCHEDULED UPDATE FOR: ${nextRace.raceInstant}\n")
         upcomingUpdateFuture = executorService.schedule(
