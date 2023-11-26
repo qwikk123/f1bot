@@ -23,6 +23,7 @@ class MessageScheduler(private val f1DataService: F1DataService) {
      */
     fun schedule() {
         val nextRace = f1DataService.nextRace
+        if (nextRace.upcomingDate.isBefore(Instant.now())) return
 
         val upcomingRaceMessage = UpcomingRaceMessage(f1DataService, LocalDateTime.now(), nextRace)
         println("SCHEDULED TASK FOR: ${nextRace.upcomingDate}\n")
