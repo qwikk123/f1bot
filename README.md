@@ -40,11 +40,11 @@
 
 ## Built With
 
-* ![Kotlin](https://kotlinlang.org/)
-* ![Gradle](https://gradle.org/)
-* ![JDA](https://github.com/DV8FromTheWorld/JDA)
-* ![Jib](https://github.com/GoogleContainerTools/jib)
-* ![org.json](https://github.com/stleary/JSON-java)
+* [Kotlin](https://kotlinlang.org/)
+* [Gradle](https://gradle.org/)
+* [JDA](https://github.com/DV8FromTheWorld/JDA)
+* [Jib](https://github.com/GoogleContainerTools/jib)
+* [org.json](https://github.com/stleary/JSON-java)
 
 Additionally the bot relies on the ![Ergast](https://ergast.com/mrd/) api for information about Formula 1
 
