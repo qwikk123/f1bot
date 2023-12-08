@@ -46,7 +46,7 @@
 * [Jib](https://github.com/GoogleContainerTools/jib)
 * [org.json](https://github.com/stleary/JSON-java)
 
-Additionally the bot relies on the ![Ergast](https://ergast.com/mrd/) api for information about Formula 1
+Additionally the bot relies on the [Ergast](https://ergast.com/mrd/) api for information about Formula 1
 
 ## Getting Started
 
