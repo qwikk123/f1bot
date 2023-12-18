@@ -5,6 +5,7 @@ import commands.botcommands.DriverStandings
 import commands.botcommands.GetRace
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -38,6 +39,10 @@ class CommandListener(private val f1DataService: F1DataService) : ListenerAdapte
         guildList.add(event.guild)
         upsertCommands(guildList)
         f1DataService.refreshScheduler()
+    }
+
+    override fun onGuildLeave(event: GuildLeaveEvent) {
+        f1DataService.removeGuildNotifications(event.guild)
     }
 
     /**

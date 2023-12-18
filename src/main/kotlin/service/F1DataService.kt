@@ -95,6 +95,10 @@ class F1DataService(val bot: JDA) {
         return removed
     }
 
+    fun removeGuildNotifications(server: Guild) {
+        if (serverNotificationList.removeIf { it.server.id == server.id }) discordDataSource.updateNotifications()
+    }
+
     /**
      * Method that sets a text channel description.
      */
