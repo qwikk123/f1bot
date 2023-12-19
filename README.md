@@ -76,7 +76,8 @@ However I recommend using Docker.
 
 
 ## Usage
-An invite link to test the bot is not currently available, but will be soon.
+An invite link to test the bot is available [here](https://discord.com/api/oauth2/authorize?client_id=1091027933298180137&permissions=8&scope=bot+applications.commands) <br>
+The link requires a discord account and a server where you can add the bot. This can be done at discords [website](https://discord.com). You dont have to download anything as discord can be used in the browser.
 
 Once the bot has been added to a server you can simply input a "/" in any text-channel and you should be able to select the bot and view its slash-commands.
 The commands have their own descriptions within discord.
