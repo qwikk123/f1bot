@@ -4,7 +4,7 @@
   <h3 align="center">F1bot</h3>
 
   <p align="center">
-    A Formula 1 Discord bot made in Kotlin with <a href="https://github.com/DV8FromTheWorld/JDA">JDA<a/> and the <a href="https://ergast.com/mrd/">Ergast</a> api.
+    An unofficial Formula 1 Discord bot made in Kotlin with <a href="https://github.com/DV8FromTheWorld/JDA">JDA<a/> and the <a href="https://ergast.com/mrd/">Ergast</a> api.
     <br />
       If you want to test the bot you can use this <a href = "https://discord.com/api/oauth2/authorize?client_id=1091027933298180137&permissions=8&scope=bot+applications.commands">invite link.</a>
   </p>
