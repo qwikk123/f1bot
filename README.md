@@ -13,7 +13,6 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -31,7 +30,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#examples-and-screenshots">Examples/screenshots</a></li>
   </ol>
-</details>
 
 
 
