@@ -62,7 +62,7 @@ The bot can be started and put into a docker container by running f1bot.sh. <br>
 Once you have setup the Discord dev settngs under prerequisites you can create an invite link for the bot.
 
 ### Prerequisites
-* A Discord account with an app created at the ![Discord developer portal](https://discord.com/developers/docs/getting-started).
+* A Discord account with an app created at the [Discord developer portal](https://discord.com/developers/docs/getting-started).
 * A Discord bot for the app with its token put into /src/main/resources/token/token.txt.
 * The bot must have Message Content Intent enabled, you can read more about this at the developer portal.
 * Docker
