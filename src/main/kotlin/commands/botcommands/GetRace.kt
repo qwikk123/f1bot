@@ -4,6 +4,7 @@ import model.Driver
 import model.Race
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
+import net.dv8tion.jda.api.interactions.commands.Command
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import net.dv8tion.jda.api.interactions.components.buttons.Button
@@ -19,14 +20,15 @@ private const val pageSize = 10
  */
 class GetRace(name: String, description: String, private val raceList: MutableList<Race>) : BotCommand(name, description) {
     init {
+        val choiceList = raceList.map { Command.Choice("#${it.round} ${it.name}", it.round.toString()) }
         options.add(
             OptionData(
-                OptionType.INTEGER,
-                "racenumber",
+                OptionType.STRING,
+                "race",
                 "Race to get info from",
                 true,
-                true
-            ).setMinValue(1).setMaxValue(raceList.size.toLong())
+                false
+            ).addChoices(choiceList)
         )
     }
 
@@ -34,7 +36,8 @@ class GetRace(name: String, description: String, private val raceList: MutableLi
         val buttonList: MutableList<Button> = mutableListOf()
         buttonList.add(Button.danger("info-getrace", "Info").asDisabled())
         buttonList.add(Button.danger("result-getrace", "Result"))
-        val index: Int = event.getOption("racenumber")!!.asInt - 1
+        val index: Int = event.getOption("race")!!.asInt - 1
+        println(index)
 
         val race: Race = raceList[index]
         val inputStream :InputStream = javaClass.getResourceAsStream(race.imagePath)!!

@@ -13,8 +13,7 @@ import utils.EmbedCreator
  */
 class GetDriver(name: String, description: String, private val driverMap: HashMap<String, Driver>) : BotCommand(name, description) {
     init {
-        val choiceList = ArrayList<Command.Choice>()
-        driverMap.values.forEach { choiceList.add(Command.Choice(it.name, it.driverId))}
+        val choiceList = driverMap.values.map { Command.Choice(it.name, it.driverId)}
         options.add(
             OptionData(
                 OptionType.STRING,
