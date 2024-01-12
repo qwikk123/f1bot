@@ -4,15 +4,15 @@
   <h3 align="center">F1bot</h3>
 
   <p align="center">
-    A Formula 1 Discord bot made in Kotlin with <a href="https://github.com/DV8FromTheWorld/JDA">JDA<a/> and the <a href="https://ergast.com/mrd/">Ergast</a> api.
+    An unofficial Formula 1 Discord bot made in Kotlin with <a href="https://github.com/DV8FromTheWorld/JDA">JDA<a/> and the <a href="https://ergast.com/mrd/">Ergast</a> api.
     <br />
+      If you want to test the bot you can use this <a href = "https://discord.com/api/oauth2/authorize?client_id=1091027933298180137&permissions=8&scope=bot+applications.commands">invite link.</a>
   </p>
 </div>
 
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -30,7 +30,6 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#examples-and-screenshots">Examples/screenshots</a></li>
   </ol>
-</details>
 
 
 
@@ -63,7 +62,7 @@ The bot can be started and put into a docker container by running f1bot.sh. <br>
 Once you have setup the Discord dev settngs under prerequisites you can create an invite link for the bot.
 
 ### Prerequisites
-* A Discord account with an app created at the ![Discord developer portal](https://discord.com/developers/docs/getting-started).
+* A Discord account with an app created at the [Discord developer portal](https://discord.com/developers/docs/getting-started).
 * A Discord bot for the app with its token put into /src/main/resources/token/token.txt.
 * The bot must have Message Content Intent enabled, you can read more about this at the developer portal.
 * Docker
@@ -75,7 +74,8 @@ However I recommend using Docker.
 
 
 ## Usage
-An invite link to test the bot is not currently available, but will be soon.
+An invite link to test the bot is available [here](https://discord.com/api/oauth2/authorize?client_id=1091027933298180137&permissions=8&scope=bot+applications.commands) <br>
+The link requires a discord account and a server where you can add the bot. This can be done at discords [website](https://discord.com). You dont have to download anything as discord can be used in the browser.
 
 Once the bot has been added to a server you can simply input a "/" in any text-channel and you should be able to select the bot and view its slash-commands.
 The commands have their own descriptions within discord.
