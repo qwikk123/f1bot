@@ -13,6 +13,7 @@ class NextRace(name: String, description: String, private val raceList: MutableL
 
     override fun execute(event: SlashCommandInteractionEvent) {
         val nextRace: Race = nextRace
+        println(nextRace)
         val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
 
         event.hook.sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
@@ -23,6 +24,6 @@ class NextRace(name: String, description: String, private val raceList: MutableL
     private val nextRace: Race
         get() {
             return raceList.firstOrNull { it.raceInstant.isAfter(Instant.now()) }
-                ?: raceList[raceList.size-1]
+                ?: raceList.last()
         }
 }
