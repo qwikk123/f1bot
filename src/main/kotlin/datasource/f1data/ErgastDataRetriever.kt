@@ -4,6 +4,7 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.File
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -64,27 +65,40 @@ class ErgastDataRetriever {
 
     /**
      * Method to get a JSONObject from an Ergast endpoint.
-     * @param url Which Ergast endpoint to retrieve data from.
+     * @param urlString Which Ergast endpoint to retrieve data from.
      * @return A JSONObject containing Ergast API data.
      */
-    private fun getJsonFromURL(url: String): JSONObject {
-        val fileName = getFileNameOfURL(url)
+    private fun getJsonFromURL(urlString: String): JSONObject {
+        val fileName = getFileNameOfURL(urlString)
+        val connectionTimeout = 2000
+        val readTimeout = 2000
+
         return try {
-            val json: String = URL(url).readText()
+            val url = URL(urlString)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.connectTimeout = connectionTimeout
+            connection.readTimeout = readTimeout
+
+            val json: String = connection.inputStream.bufferedReader().use { it.readText() }
+
             val f = File("cache/$fileName")
-            Files.createDirectories(Paths.get(f.getParent()))
+            Files.createDirectories(Paths.get(f.parent))
             f.writeText(json)
+
             println("UPDATING: " + f.path)
             println("UPDATED AT: " + LocalDateTime.now())
             println()
+
             JSONObject(JSONTokener(json))
         } catch (e: IOException) {
-            println("FILE IO ERROR OR ERGAST CONNECTION FAILED")
+            println(e)
+            println(urlString)
+            println("FILE IO ERROR OR CONNECTION FAILED")
             println("RETRIEVING FROM CACHE\n")
             val f = File("cache/$fileName")
             getJsonFromFile(f)
         }
-   }
+    }
 
     /**
      * Method converting a URL endpoint to a filename.
