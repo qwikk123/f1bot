@@ -13,7 +13,6 @@ class NextRace(name: String, description: String, private val raceList: MutableL
 
     override fun execute(event: SlashCommandInteractionEvent) {
         val nextRace: Race = nextRace
-        println(nextRace)
         val inputStream = javaClass.getResourceAsStream(nextRace.imagePath)!!
 
         event.hook.sendMessageEmbeds(EmbedCreator.createRace(nextRace).build())
