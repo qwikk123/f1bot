@@ -154,7 +154,7 @@ class ErgastParser {
             val wins: Int = jDriver.getInt("wins")
             val constructorName: String = jDriverConstructor.getString("name")
             val code: String = jDriverInfo.getString("code")
-            val nationality: String = jDriverInfo.getString("nationality")
+            val nationality: String = jDriverInfo.getString("nationality").trim()
             val driverId: String = jDriverInfo.getString("driverId")
             val permanentNumber: Int = jDriverInfo.getInt("permanentNumber")
             val isoCode: String = nationalityCodeMap[nationality]!!
