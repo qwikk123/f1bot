@@ -37,7 +37,7 @@ class ErgastParser {
      * @return A list containing a Race instance for each race in the F1 season.
      */
     fun getF1RaceData(forceUpdate: Boolean = false): MutableList<Race> {
-        val URL = "https://ergast.com/api/f1/current.json"
+        val URL = "https://api.jolpi.ca/ergast/f1/current.json"
         val validUpdate = ergastDataRetriever.validUpdate(URL)
         if (!(forceUpdate || validUpdate)) {
             return mutableListOf()
@@ -84,7 +84,7 @@ class ErgastParser {
      */
     fun getRaceResults(forceUpdate: Boolean = false): MutableList<RaceResult> {
         val raceResults: MutableList<RaceResult> = mutableListOf()
-        val url = "https://ergast.com/api/f1/current/results.json?limit=1000"
+        val url = "https://api.jolpi.ca/ergast/f1/current/results.json?limit=1000"
         val validUpdate = ergastDataRetriever.validUpdate(url)
         if (!(forceUpdate || validUpdate)) {
             return mutableListOf()
@@ -129,12 +129,14 @@ class ErgastParser {
      * @return A HashMap containing all the drivers in the F1 season mapped to their driverId
      */
     fun getF1DriverStandingsData(forceUpdate: Boolean = false): HashMap<String, Driver> {
-        val url = "https://ergast.com/api/f1/current/driverStandings.json"
+        val url = "https://api.jolpi.ca/ergast/f1/current/driverStandings.json"
         val validUpdate = ergastDataRetriever.validUpdate(url)
         if (!(forceUpdate || validUpdate)) {
             return HashMap()
         }
         val json: JSONObject = ergastDataRetriever.getJson(url, validUpdate)
+        val total = json.getJSONObject("MRData").getString("total")
+        if (total == "0") return HashMap()
         val jArray: JSONArray = json.getJSONObject("MRData")
             .getJSONObject("StandingsTable")
             .getJSONArray("StandingsLists")
@@ -173,12 +175,14 @@ class ErgastParser {
      * @return A list containing the constructors for this F1 season.
      */
     fun getF1ConstructorStandingsData(forceUpdate: Boolean = false): MutableList<Constructor> {
-        val url = "https://ergast.com/api/f1/current/constructorStandings.json"
+        val url = "https://api.jolpi.ca/ergast/f1/current/constructorStandings.json"
         val validUpdate = ergastDataRetriever.validUpdate(url)
         if (!(forceUpdate || validUpdate)) {
             return mutableListOf()
         }
         val json: JSONObject = ergastDataRetriever.getJson(url, validUpdate)
+        val total = json.getJSONObject("MRData").getString("total")
+        if (total == "0") return mutableListOf()
         val jArray: JSONArray = json.getJSONObject("MRData")
             .getJSONObject("StandingsTable")
             .getJSONArray("StandingsLists")
