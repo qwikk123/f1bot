@@ -52,5 +52,12 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+      - name: Get version tag
+        id: version
+        run: echo "VERSION_TAG=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
       - name: Publish Docker Image with Jib
-        run: ./gradlew jib
+        run: |
+          ./gradlew jib \
+          -Djib.to.tags=latest,${{ env.VERSION_TAG }} \
+          -Djib.to.image=qwikk/f1bot:${{ env.VERSION_TAG }}
