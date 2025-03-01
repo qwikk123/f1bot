@@ -30,11 +30,7 @@ application {
 }
 
 jib {
-    from {
-        image = "openjdk:latest"
-    }
     to {
         image = "qwikk/f1bot"
-        tags = setOf("latest")
     }
 }
