@@ -150,7 +150,7 @@ class ErgastParser {
             val jDriverConstructor = jDriver.getJSONArray("Constructors").getJSONObject(0)
 
             //Values
-            val pos: Int = jDriver.getInt("position")
+            val pos: Int = jDriver.optInt("position", i+1)
             val name: String = jDriverInfo.getString("givenName") + " " + jDriverInfo.getString("familyName")
             val points: Double = jDriver.getDouble("points")
             val wins: Int = jDriver.getInt("wins")
